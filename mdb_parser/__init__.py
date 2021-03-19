@@ -17,8 +17,8 @@ class MDBParser():
         Returns:
             (list): List with the table names
         """
-        output = subprocess.check_output(f"mdb-tables {self.__file_path}", shell=True).decode("utf-8")
-        return output.strip().splitlines()
+        output = subprocess.check_output(f"mdb-tables {self.__file_path} -d '|'", shell=True).decode("utf-8")
+        return output.strip(" \n|").split("|")
     
     def get_table(self, table:str):
         """Returns a MDBTable instance of the table
