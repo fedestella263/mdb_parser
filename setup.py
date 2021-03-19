@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="mdb_parser",
-    version="0.0.2",
+    version="0.0.3",
     packages=find_packages(),
     author="Federico Stella",
     author_email="fedestella263@gmail.com",
