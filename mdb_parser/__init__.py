@@ -48,11 +48,23 @@ class MDBTable():
     @property
     def columns(self):
         """Returns the columns of the table"""
-        output = subprocess.check_output(f"mdb-export {self.__file_path} {self.__table} | head -1", shell=True).decode("utf-8")
+        output = subprocess.check_output(f'mdb-export {self.__file_path} "{self.__table}" | head -1', shell=True).decode("utf-8")
         return output.strip().split(",")
+    
+    def to_csv(self, file_path:str, delimiter:str=","):
+        """Save data as csv file
+        
+        Args:
+            file_path (str): CSV file path
+            delimiter (str): Delimiter character
+        """
+        with open(file_path, "w") as file:
+            writer = csv.writer(file, delimiter=delimiter)
+            for row in self.__iter__():
+                writer.writerow(row)
     
     def __iter__(self):
         """Returns all data of the table without header"""
-        output = subprocess.check_output(f"mdb-export {self.__file_path} {self.__table} -H", shell=True).decode("utf-8")
+        output = subprocess.check_output(f'mdb-export {self.__file_path} "{self.__table}" -H', shell=True).decode("utf-8")
         return csv.reader(output.splitlines())
 

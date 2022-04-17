@@ -35,4 +35,7 @@ print(table.columns)
 # Iterate the table rows.
 for row in table:
     print(row)
+
+# Save the data as CSV file.
+table.to_csv("data.csv")
 ```
