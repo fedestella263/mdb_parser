@@ -1,4 +1,5 @@
 import subprocess
+import csv
 
 COL_DELIMITER = "@@@"
 ROW_DELIMITER = "###\n"
@@ -56,6 +57,18 @@ class MDBTable():
         """Returns the columns of the table"""
         output = subprocess.check_output(f"{self.__command} | head -1", shell=True).decode("utf-8")
         return output[:-len(ROW_DELIMITER)].split(COL_DELIMITER)
+    
+    def to_csv(self, file_path:str, delimiter:str=","):
+        """Save data as csv file
+        
+        Args:
+            file_path (str): CSV file path
+            delimiter (str): Delimiter character
+        """
+        with open(file_path, "w") as file:
+            writer = csv.writer(file, delimiter=delimiter)
+            for row in self.__iter__():
+                writer.writerow(row)
     
     def __iter__(self):
         return self
